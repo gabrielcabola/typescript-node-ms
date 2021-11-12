@@ -1,4 +1,4 @@
-# microservice-image-manipulation
+# microservice-image-manipulation (WIP)
 This Micro-service it's a API to manage Upload process, the client App needs to register a new Upload UUID before starting send files to AWS.
 - This project contain only the CRUD API part.
 
