@@ -1,0 +1,421 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"HealthResponse": {
+				"properties": {
+					"database_conn": {
+						"type": "boolean"
+					},
+					"queue_conn": {
+						"type": "boolean"
+					},
+					"status": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"database_conn",
+					"queue_conn",
+					"status"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Image": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"uuid": {
+						"type": "string"
+					},
+					"user": {
+						"type": "number",
+						"format": "double"
+					},
+					"filePath": {
+						"type": "string"
+					},
+					"fileName": {
+						"type": "string"
+					},
+					"originalFileName": {
+						"type": "string"
+					},
+					"startedAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"processedAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"isProcessed": {
+						"type": "boolean"
+					},
+					"totalMBSize": {
+						"type": "number",
+						"format": "double"
+					},
+					"uploadId": {
+						"type": "number",
+						"format": "double"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"id",
+					"uuid",
+					"user",
+					"filePath",
+					"fileName",
+					"originalFileName",
+					"startedAt",
+					"processedAt",
+					"uploadId",
+					"createdAt",
+					"updatedAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Upload": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"uuid": {
+						"type": "string"
+					},
+					"user": {
+						"type": "number",
+						"format": "double"
+					},
+					"images": {
+						"items": {
+							"$ref": "#/components/schemas/Image"
+						},
+						"type": "array"
+					},
+					"renderConfig": {
+						"properties": {
+							"maxImgDimension": {
+								"type": "number",
+								"format": "double"
+							},
+							"resizeEngine": {
+								"type": "string"
+							},
+							"quality": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"required": [
+							"maxImgDimension",
+							"resizeEngine",
+							"quality"
+						],
+						"type": "object"
+					},
+					"watermark": {
+						"type": "number",
+						"format": "double"
+					},
+					"startedAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"finishedAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"isFinished": {
+						"type": "boolean"
+					},
+					"totalFiles": {
+						"type": "number",
+						"format": "double"
+					},
+					"totalMBSize": {
+						"type": "number",
+						"format": "double"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"id",
+					"uuid",
+					"user",
+					"images",
+					"renderConfig",
+					"watermark",
+					"startedAt",
+					"finishedAt",
+					"isFinished",
+					"totalFiles",
+					"totalMBSize",
+					"createdAt",
+					"updatedAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IUploadPayload": {
+				"properties": {
+					"user": {
+						"type": "number",
+						"format": "double"
+					},
+					"renderConfig": {
+						"properties": {
+							"maxImgDimension": {
+								"type": "number",
+								"format": "double"
+							},
+							"resizeEngine": {
+								"type": "string"
+							},
+							"quality": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"required": [
+							"maxImgDimension",
+							"resizeEngine",
+							"quality"
+						],
+						"type": "object"
+					}
+				},
+				"required": [
+					"user",
+					"renderConfig"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "microservice-imgp-nodets",
+		"version": "0.0.8",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {
+			"name": "Gabriel Cabola"
+		}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/health-check": {
+			"get": {
+				"operationId": "GetMessage",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/HealthResponse"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/upload": {
+			"get": {
+				"operationId": "GetUploads",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Upload"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Upload"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateUpload",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Upload"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Upload"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IUploadPayload"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/upload/{id}": {
+			"get": {
+				"operationId": "GetUpload",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/Upload"
+										}
+									],
+									"nullable": true
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Upload"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/image/upload/{uploadId}": {
+			"get": {
+				"operationId": "GetImages",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Image"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"image"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "uploadId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/image/{id}": {
+			"get": {
+				"operationId": "GetImage",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/Image"
+										}
+									],
+									"nullable": true
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"image"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}
